@@ -1,4 +1,4 @@
-package bank_statements_analyzer;
+package bank_statements_analyzer_kiss;
 
 import java.io.IOException;
 import java.nio.file.Files;
