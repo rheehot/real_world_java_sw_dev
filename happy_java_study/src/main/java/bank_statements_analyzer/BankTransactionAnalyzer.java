@@ -30,5 +30,7 @@ public class BankTransactionAnalyzer {
         System.out.println("total transaction in february : " + bankStatementProcessor.calculateTotalMonth(Month.FEBRUARY));
 
         System.out.println("total trasaction by category : " + bankStatementProcessor.claculateTotalCategory("tesco"));
+
+        System.out.println("find trasaction greater than 300 : " + bankStatementProcessor.findTransactionGreaterThanEqual(300));
     }
 }
