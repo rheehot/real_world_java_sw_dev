@@ -10,13 +10,15 @@ import java.util.List;
 
 public class BankTransactionAnalyzer {
     private static final String RESOURCE = "src/main/resources/";
-    private static final BankStatementCSVParser bankStatementCSVParser = new BankStatementCSVParser();
 
-    public static void main(final String... args) throws IOException {
-        final Path path = Paths.get(RESOURCE + args[0]);
+    //removed
+    //private static final BankStatementCSVParser bankStatementCSVParser = new BankStatementCSVParser();
+
+    public void analyze(final String file_name, final BankStatementParse bankStatementParse) throws IOException {
+        final Path path = Paths.get(RESOURCE + file_name);
         final List<String> lines = Files.readAllLines(path);
 
-        final List<BankTransaction> bankTransactions = bankStatementCSVParser.parseLinesFromCSV(lines);
+        final List<BankTransaction> bankTransactions = bankStatementParse.parseLinesFrom(lines);
         final BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(bankTransactions);
 
         collectSummary(bankStatementProcessor);
