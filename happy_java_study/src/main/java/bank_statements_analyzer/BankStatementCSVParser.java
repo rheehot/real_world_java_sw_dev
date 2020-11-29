@@ -10,7 +10,7 @@ public class BankStatementCSVParser {
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     // conversion to BankTransaction from string line
-    public BankTransaction parseFromCSV(final String line) {
+    private BankTransaction parseFromCSV(final String line) {
         final String[] columns = line.split(",");
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
