@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BankStatementCSVParser implements BankStatementParser{
 
@@ -19,15 +20,14 @@ public class BankStatementCSVParser implements BankStatementParser{
         final double amount = Double.parseDouble(columns[1]);
 
         return new BankTransaction(date, amount, columns[2]);
-    }
+    } 
 
     public List<BankTransaction> parseLinesFrom(final List<String> lines) {
-        List<BankTransaction> bankTransactions = new ArrayList<BankTransaction>();
-
-        for(String line: lines) {
-            bankTransactions.add(parseFrom(line));
-        }
-
-        return bankTransactions;
+//        List<BankTransaction> bankTransactions = new ArrayList<BankTransaction>();
+//
+//        for(String line: lines) {
+//            bankTransactions.add(parseFrom(line));
+//        }
+        return lines.stream().map(this::parseFrom).collect(Collectors.toList());
     }
 }
