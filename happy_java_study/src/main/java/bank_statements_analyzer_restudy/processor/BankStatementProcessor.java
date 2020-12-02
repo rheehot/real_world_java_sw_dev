@@ -1,9 +1,11 @@
 package bank_statements_analyzer_restudy.processor;
 
 import bank_statements_analyzer_restudy.dao.BankTransaction;
+import bank_statements_analyzer_restudy.dao.SummaryStatistics;
 
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 public class BankStatementProcessor {
@@ -82,6 +84,17 @@ public class BankStatementProcessor {
     //특정 월 및 특정 금액 이상의 이출금ß 내역
     public List<BankTransaction> findTransactionsInMonthAndGreaterThanEqual(final double amount, final Month month) {
         return findTransactions(bankTransaction -> bankTransaction.getDate().getMonth() == month && bankTransaction.getAmount() >= amount);
+    }
+
+    public SummaryStatistics summaryTransactions() {
+        final DoubleSummaryStatistics doubleSummaryStatistics = bankTransactions.stream()
+                .mapToDouble(BankTransaction::getAmount)
+                .summaryStatistics();
+
+        return new SummaryStatistics(doubleSummaryStatistics.getSum(),
+                doubleSummaryStatistics.getMax(),
+                doubleSummaryStatistics.getMin(),
+                doubleSummaryStatistics.getAverage());
     }
 
 
