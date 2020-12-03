@@ -7,9 +7,12 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BankStatementProcessor {
 
+    private static Logger logger = Logger.getLogger(BankStatementProcessor.class.getName());
     private final List<BankTransaction> bankTransactions;
 
     public BankStatementProcessor(List<BankTransaction> bankTransactions) {
@@ -18,6 +21,7 @@ public class BankStatementProcessor {
 
     public double calculateTotal(final BankTransactionFilter BankTransactionFilter) {
         double total = 0;
+        logger.log(Level.FINE, "processing {0} entries in loop", bankTransactions.size());
         for (BankTransaction bankTransaction: bankTransactions) {
             if (BankTransactionFilter.filter(bankTransaction)) {
                 total += bankTransaction.getAmount();
@@ -63,6 +67,7 @@ public class BankStatementProcessor {
     public List<BankTransaction> findTransactions(final BankTransactionFilter bankTransactionFilter) {
         final List<BankTransaction> result = new ArrayList<BankTransaction>();
 
+        logger.log(Level.FINE, "processing {0} entries in loop", bankTransactions.size());
         for (BankTransaction bankTransaction: bankTransactions) {
             if(bankTransactionFilter.filter(bankTransaction)) {
                 result.add(bankTransaction);
