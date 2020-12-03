@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class BankStatementCSVParser implements BankStatementParser{
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    //private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public BankTransaction parseFrom(final String line) {
 //        final String[] columns = line.split(",");
@@ -24,52 +24,13 @@ public class BankStatementCSVParser implements BankStatementParser{
 //
 //        return new BankTransaction(date, amount, columns[2]);
 //         =====> 아래와 같은 에러 데이터 핸들링 기능 추가
-        final Notification notification = new Notification();
 
-        String[] columns = null;
-        LocalDate date = null;
-        double amount = 0;
-        String description = null;
-
-        try {
-            columns = line.split(",");
-            if (columns.length != 3) {
-                notification.addError("wrong data issue.");
-            } else {
-                try {
-                    date = LocalDate.parse(columns[0], DATE_TIME_FORMATTER);
-
-                    if(date.isAfter(LocalDate.now())) {
-                        notification.addError("date cannot be in the future.");
-                    }
-
-                } catch (DateTimeParseException e) {
-                    notification.addError("invalid date time parsing.");
-                }
-
-                try {
-                    amount = Double.parseDouble(columns[1]);
-                } catch (
-                        NullPointerException  e) {
-                    notification.addError("string is null.");
-                } catch (NumberFormatException e) {
-                    notification.addError("there is no parsable double data.");
-                }
-
-                description = columns[2];
-                if (description.length() > 100) {
-                    notification.addError("description is to long");
-                }
-            }
-        } catch(PatternSyntaxException e) {
-            notification.addError("invalid syntax error in csv file.");
+        final String[] columns = line.split(",");
+        if (columns.length != 3) {
+            throw new RuntimeException("illegal csv file systax.");
         }
 
-        if (notification.hadErrors()) {
-            throw new RuntimeException(notification.errorMessage());
-        }
-
-        return new BankTransaction(date, amount, description);
+        return validate(columns[0], columns[1], columns[2]);
     } 
 
     public List<BankTransaction> parseLinesFrom(final List<String> lines) {
