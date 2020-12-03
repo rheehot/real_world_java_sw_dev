@@ -23,6 +23,7 @@ public class BankStatementCSVParser implements BankStatementParser{
 //        final double amount = Double.parseDouble(columns[1]);
 //
 //        return new BankTransaction(date, amount, columns[2]);
+//         =====> 아래와 같은 에러 데이터 핸들링 기능 추가
         final Notification notification = new Notification();
 
         String[] columns = null;
