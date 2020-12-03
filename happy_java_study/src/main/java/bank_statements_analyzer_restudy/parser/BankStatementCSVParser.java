@@ -44,7 +44,7 @@ public class BankStatementCSVParser implements BankStatementParser{
                     }
 
                 } catch (DateTimeParseException e) {
-                    notification.addError("invlid date time parsing.");
+                    notification.addError("invalid date time parsing.");
                 }
 
                 try {
