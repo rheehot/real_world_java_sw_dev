@@ -14,7 +14,7 @@ public interface BankStatementParser {
     BankTransaction parseFrom(final String line);
     List<BankTransaction> parseLinesFrom(List<String> lines);
 
-    default BankTransaction validate(String dateStr, String amountStr, String descriptionStr) {
+    default BankTransaction validateLine(String dateStr, String amountStr, String descriptionStr) {
 
         final Notification notification = new Notification();
         LocalDate date = null;

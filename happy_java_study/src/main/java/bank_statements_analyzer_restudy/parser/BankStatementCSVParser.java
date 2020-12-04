@@ -24,16 +24,21 @@ public class BankStatementCSVParser implements BankStatementParser{
 //
 //        return new BankTransaction(date, amount, columns[2]);
 //         =====> 아래와 같은 에러 데이터 핸들링 기능 추가
+        String[] columns = null;
 
+        try {
+            columns = line.split(",");
 
-        final String[] columns = line.split(",");
+            if (columns.length != 3) {
+                logger.log(Level.WARNING, "illegal csv file syntax");
+                throw new RuntimeException();
+            }
 
-        if (columns.length != 3) {
-            logger.log(Level.WARNING, "illegal csv file syntax");
+        } catch (RuntimeException e) {
             throw new RuntimeException("illegal csv file syntax.");
         }
 
-        return validate(columns[0], columns[1], columns[2]);
+        return validateLine(columns[0], columns[1], columns[2]);
     }
 
     public List<BankTransaction> parseLinesFrom(final List<String> lines) {
